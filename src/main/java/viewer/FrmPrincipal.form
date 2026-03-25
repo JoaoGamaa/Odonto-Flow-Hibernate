@@ -4,36 +4,41 @@
   <NonVisualComponents>
     <Menu class="javax.swing.JMenuBar" name="jMenuBar1">
       <SubComponents>
-        <Menu class="javax.swing.JMenu" name="jMenu1">
+        <Menu class="javax.swing.JMenu" name="menuPaciente">
           <Properties>
             <Property name="text" type="java.lang.String" value="Paciente"/>
           </Properties>
           <SubComponents>
-            <Menu class="javax.swing.JMenu" name="jMenu5">
+            <Menu class="javax.swing.JMenu" name="menuCadPaciente">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Cadastrar Paciente"/>
               </Properties>
             </Menu>
-            <Menu class="javax.swing.JMenu" name="jMenu6">
+            <Menu class="javax.swing.JMenu" name="menuEditPaciente">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Editar Paciente"/>
               </Properties>
             </Menu>
+            <Menu class="javax.swing.JMenu" name="menuListPaciente">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Listar Paciente"/>
+              </Properties>
+            </Menu>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator1">
             </MenuItem>
-            <Menu class="javax.swing.JMenu" name="jMenu7">
+            <Menu class="javax.swing.JMenu" name="menuSair">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Sair"/>
               </Properties>
             </Menu>
           </SubComponents>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="jMenu2">
+        <Menu class="javax.swing.JMenu" name="menuAgenda">
           <Properties>
             <Property name="text" type="java.lang.String" value="Agenda"/>
           </Properties>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="jMenu3">
+        <Menu class="javax.swing.JMenu" name="menuProntuario">
           <Properties>
             <Property name="text" type="java.lang.String" value="Prontu&#xe1;rio"/>
           </Properties>

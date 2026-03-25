@@ -16,8 +16,54 @@ public class FrmPrincipal extends javax.swing.JFrame {
      * Creates new form FrmPrincipal
      */
     public FrmPrincipal() {
-        initComponents();
-    }
+    initComponents();
+    initEventos(); // adicione essa linha
+}
+
+private void initEventos() {
+    menuCadPaciente.addMouseListener(new java.awt.event.MouseAdapter() {
+        @Override
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            controller.GerInterGrafica.getInstancia().abrirCadCliente();
+        }
+    });
+
+    menuEditPaciente.addMouseListener(new java.awt.event.MouseAdapter() {
+        @Override
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            controller.GerInterGrafica.getInstancia().abrirEditarPaciente();
+        }
+    });
+
+    menuListPaciente.addMouseListener(new java.awt.event.MouseAdapter() {
+        @Override
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            controller.GerInterGrafica.getInstancia().abrirListarPaciente();
+        }
+    });
+
+    menuAgenda.addMouseListener(new java.awt.event.MouseAdapter() {
+        @Override
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            controller.GerInterGrafica.getInstancia().abrirAgenda();
+        }
+    });
+
+    menuProntuario.addMouseListener(new java.awt.event.MouseAdapter() {
+        @Override
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            controller.GerInterGrafica.getInstancia().abrirProntuario();
+        }
+    });
+
+    menuSair.addMouseListener(new java.awt.event.MouseAdapter() {
+        @Override
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            System.exit(0);
+        }
+    });
+}
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -29,35 +75,39 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private void initComponents() {
 
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenu5 = new javax.swing.JMenu();
-        jMenu6 = new javax.swing.JMenu();
+        menuPaciente = new javax.swing.JMenu();
+        menuCadPaciente = new javax.swing.JMenu();
+        menuEditPaciente = new javax.swing.JMenu();
+        menuListPaciente = new javax.swing.JMenu();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
-        jMenu7 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
-        jMenu3 = new javax.swing.JMenu();
+        menuSair = new javax.swing.JMenu();
+        menuAgenda = new javax.swing.JMenu();
+        menuProntuario = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jMenu1.setText("Paciente");
+        menuPaciente.setText("Paciente");
 
-        jMenu5.setText("Cadastrar Paciente");
-        jMenu1.add(jMenu5);
+        menuCadPaciente.setText("Cadastrar Paciente");
+        menuPaciente.add(menuCadPaciente);
 
-        jMenu6.setText("Editar Paciente");
-        jMenu1.add(jMenu6);
-        jMenu1.add(jSeparator1);
+        menuEditPaciente.setText("Editar Paciente");
+        menuPaciente.add(menuEditPaciente);
 
-        jMenu7.setText("Sair");
-        jMenu1.add(jMenu7);
+        menuListPaciente.setText("Listar Paciente");
+        menuPaciente.add(menuListPaciente);
+        menuPaciente.add(jSeparator1);
 
-        jMenuBar1.add(jMenu1);
+        menuSair.setText("Sair");
+        menuPaciente.add(menuSair);
 
-        jMenu2.setText("Agenda");
-        jMenuBar1.add(jMenu2);
+        jMenuBar1.add(menuPaciente);
 
-        jMenu3.setText("Prontuário");
-        jMenuBar1.add(jMenu3);
+        menuAgenda.setText("Agenda");
+        jMenuBar1.add(menuAgenda);
+
+        menuProntuario.setText("Prontuário");
+        jMenuBar1.add(menuProntuario);
 
         setJMenuBar(jMenuBar1);
 
@@ -101,13 +151,14 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu5;
-    private javax.swing.JMenu jMenu6;
-    private javax.swing.JMenu jMenu7;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JMenu menuAgenda;
+    private javax.swing.JMenu menuCadPaciente;
+    private javax.swing.JMenu menuEditPaciente;
+    private javax.swing.JMenu menuListPaciente;
+    private javax.swing.JMenu menuPaciente;
+    private javax.swing.JMenu menuProntuario;
+    private javax.swing.JMenu menuSair;
     // End of variables declaration//GEN-END:variables
 }
