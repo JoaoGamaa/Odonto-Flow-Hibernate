@@ -5,8 +5,12 @@
 package viewer;
 
 import controller.FuncoesUteis;
+import java.io.File;
 import java.io.IOException;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import model.Endereco;
 
 /**
@@ -277,6 +281,11 @@ public class DlgCadCliente extends javax.swing.JDialog {
         lblFoto.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblFoto.setText("Foto");
         lblFoto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        lblFoto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblFotoMouseClicked(evt);
+            }
+        });
 
         try {
             txtFormaterDataNascimento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
@@ -412,6 +421,21 @@ public class DlgCadCliente extends javax.swing.JDialog {
         }
 
     }//GEN-LAST:event_txtFormaterCEPFocusLost
+
+    private void lblFotoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblFotoMouseClicked
+
+        JFileChooser janArq = new JFileChooser();
+        
+        janArq.setAcceptAllFileFilterUsed(false);
+        
+        janArq.setFileFilter(new FileNameExtensionFilter("Arquivo de imagem", "png", "jpg", "gif", "bmp"));
+        
+        if (janArq.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){
+            File arq = janArq.getSelectedFile();
+            ImageIcon imagem = new ImageIcon (arq.getAbsolutePath());
+            lblFoto.setIcon(imagem);
+        }
+    }//GEN-LAST:event_lblFotoMouseClicked
 
     /**
      * @param args the command line arguments

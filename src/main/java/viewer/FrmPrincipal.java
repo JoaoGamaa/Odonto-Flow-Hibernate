@@ -4,6 +4,11 @@
  */
 package viewer;
 
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
 /**
  *
  * @author joaoh
@@ -21,6 +26,33 @@ public class FrmPrincipal extends javax.swing.JFrame {
 }
 
 private void initEventos() {
+    
+    
+    
+    javax.swing.ButtonGroup grupoAparencia = new javax.swing.ButtonGroup();
+    grupoAparencia.add(menuWindows);
+    grupoAparencia.add(menuNumbus);
+    grupoAparencia.add(menuMetal);
+    grupoAparencia.add(MenuMotif);
+    grupoAparencia.add(menuLigth);
+    grupoAparencia.add(menuDark);
+
+// Marca o padrão inicial (Nimbus, já que é o que o sistema inicia)
+    menuNumbus.setSelected(true);
+    
+    butaoProntuario.addActionListener(evt -> 
+    controller.GerInterGrafica.getInstancia().abrirProntuario());
+
+    ButaoAgenda.addActionListener(evt -> 
+    controller.GerInterGrafica.getInstancia().abrirAgenda());
+    
+    menuWindows.addActionListener(evt -> trocarLookAndFeel('W'));
+    menuNumbus.addActionListener(evt -> trocarLookAndFeel('N'));
+    MenuMotif.addActionListener(evt -> trocarLookAndFeel('F'));
+    menuWindows.addActionListener(evt -> trocarLookAndFeel('W'));
+    menuNumbus.addActionListener(evt -> trocarLookAndFeel('N'));
+    MenuMotif.addActionListener(evt -> trocarLookAndFeel('F'));
+    
     menuCadPaciente.addMouseListener(new java.awt.event.MouseAdapter() {
         @Override
         public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -28,12 +60,6 @@ private void initEventos() {
         }
     });
 
-    menuEditPaciente.addMouseListener(new java.awt.event.MouseAdapter() {
-        @Override
-        public void mouseClicked(java.awt.event.MouseEvent evt) {
-            controller.GerInterGrafica.getInstancia().abrirEditarPaciente();
-        }
-    });
 
     menuListPaciente.addMouseListener(new java.awt.event.MouseAdapter() {
         @Override
@@ -42,14 +68,14 @@ private void initEventos() {
         }
     });
 
-    menuAgenda.addMouseListener(new java.awt.event.MouseAdapter() {
+    menuFerramentas.addMouseListener(new java.awt.event.MouseAdapter() {
         @Override
         public void mouseClicked(java.awt.event.MouseEvent evt) {
             controller.GerInterGrafica.getInstancia().abrirAgenda();
         }
     });
 
-    menuProntuario.addMouseListener(new java.awt.event.MouseAdapter() {
+    menuAjuda.addMouseListener(new java.awt.event.MouseAdapter() {
         @Override
         public void mouseClicked(java.awt.event.MouseEvent evt) {
             controller.GerInterGrafica.getInstancia().abrirProntuario();
@@ -74,25 +100,68 @@ private void initEventos() {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        butaoProntuario = new javax.swing.JButton();
+        butaoSituacao = new javax.swing.JButton();
+        ButaoAgenda = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         menuPaciente = new javax.swing.JMenu();
         menuCadPaciente = new javax.swing.JMenu();
-        menuEditPaciente = new javax.swing.JMenu();
         menuListPaciente = new javax.swing.JMenu();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         menuSair = new javax.swing.JMenu();
-        menuAgenda = new javax.swing.JMenu();
-        menuProntuario = new javax.swing.JMenu();
+        menuFerramentas = new javax.swing.JMenu();
+        menuAparencia = new javax.swing.JMenu();
+        menuWindows = new javax.swing.JRadioButtonMenuItem();
+        menuNumbus = new javax.swing.JRadioButtonMenuItem();
+        menuMetal = new javax.swing.JRadioButtonMenuItem();
+        MenuMotif = new javax.swing.JRadioButtonMenuItem();
+        menuLigth = new javax.swing.JRadioButtonMenuItem();
+        menuDark = new javax.swing.JRadioButtonMenuItem();
+        menuAjuda = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel1.setBackground(new java.awt.Color(153, 153, 153));
+        jPanel1.setForeground(new java.awt.Color(204, 204, 204));
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI Historic", 1, 36)); // NOI18N
+        jLabel1.setText("OdontoFlow");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(160, 160, 160))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        butaoProntuario.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
+        butaoProntuario.setText("Prontuário");
+        butaoProntuario.addActionListener(this::butaoProntuarioActionPerformed);
+
+        butaoSituacao.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
+        butaoSituacao.setText("Situação");
+        butaoSituacao.addActionListener(this::butaoSituacaoActionPerformed);
+
+        ButaoAgenda.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
+        ButaoAgenda.setText("Agenda");
+        ButaoAgenda.addActionListener(this::ButaoAgendaActionPerformed);
 
         menuPaciente.setText("Paciente");
 
         menuCadPaciente.setText("Cadastrar Paciente");
         menuPaciente.add(menuCadPaciente);
-
-        menuEditPaciente.setText("Editar Paciente");
-        menuPaciente.add(menuEditPaciente);
 
         menuListPaciente.setText("Listar Paciente");
         menuPaciente.add(menuListPaciente);
@@ -103,11 +172,43 @@ private void initEventos() {
 
         jMenuBar1.add(menuPaciente);
 
-        menuAgenda.setText("Agenda");
-        jMenuBar1.add(menuAgenda);
+        menuFerramentas.setText("Ferramentas");
 
-        menuProntuario.setText("Prontuário");
-        jMenuBar1.add(menuProntuario);
+        menuAparencia.setText("Aparência");
+
+        menuWindows.setSelected(true);
+        menuWindows.setText("Windows");
+        menuAparencia.add(menuWindows);
+
+        menuNumbus.setSelected(true);
+        menuNumbus.setText("Numbus");
+        menuAparencia.add(menuNumbus);
+
+        menuMetal.setSelected(true);
+        menuMetal.setText("Metal");
+        menuMetal.addActionListener(this::menuMetalActionPerformed);
+        menuAparencia.add(menuMetal);
+
+        MenuMotif.setSelected(true);
+        MenuMotif.setText("Motif");
+        menuAparencia.add(MenuMotif);
+
+        menuLigth.setSelected(true);
+        menuLigth.setText("FlatLaf Ligth");
+        menuLigth.addActionListener(this::menuLigthActionPerformed);
+        menuAparencia.add(menuLigth);
+
+        menuDark.setSelected(true);
+        menuDark.setText("FlatLaf Dark");
+        menuDark.addActionListener(this::menuDarkActionPerformed);
+        menuAparencia.add(menuDark);
+
+        menuFerramentas.add(menuAparencia);
+
+        jMenuBar1.add(menuFerramentas);
+
+        menuAjuda.setText("Ajuda");
+        jMenuBar1.add(menuAjuda);
 
         setJMenuBar(jMenuBar1);
 
@@ -115,50 +216,100 @@ private void initEventos() {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(48, Short.MAX_VALUE)
+                .addComponent(butaoProntuario, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(ButaoAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(butaoSituacao, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(45, 45, 45))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 277, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(45, 45, 45)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(butaoProntuario, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ButaoAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(butaoSituacao, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 74, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void butaoProntuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butaoProntuarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_butaoProntuarioActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new FrmPrincipal().setVisible(true));
+    private void butaoSituacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butaoSituacaoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_butaoSituacaoActionPerformed
+
+    private void ButaoAgendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButaoAgendaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ButaoAgendaActionPerformed
+
+    private void menuMetalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuMetalActionPerformed
+        trocarLookAndFeel('M');
+    }//GEN-LAST:event_menuMetalActionPerformed
+
+    private void menuDarkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuDarkActionPerformed
+        trocarLookAndFeel('D');
+    }//GEN-LAST:event_menuDarkActionPerformed
+
+    private void menuLigthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLigthActionPerformed
+        trocarLookAndFeel('L');
+    }//GEN-LAST:event_menuLigthActionPerformed
+
+    
+     private void trocarLookAndFeel(char nomeLook) {
+    try {
+        String lookAndFeel = switch (nomeLook) {
+            case 'N' -> "javax.swing.plaf.nimbus.NimbusLookAndFeel";
+            case 'F' -> "com.sun.java.swing.plaf.motif.MotifLookAndFeel";
+            case 'W' -> "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
+            case 'M' -> "javax.swing.plaf.metal.MetalLookAndFeel";
+            case 'L' -> "com.formdev.flatlaf.FlatLightLaf";
+            case 'D' -> "com.formdev.flatlaf.FlatDarkLaf";
+            default  -> "javax.swing.plaf.metal.MetalLookAndFeel";
+        };
+        UIManager.setLookAndFeel(lookAndFeel);
+        SwingUtilities.updateComponentTreeUI(this);
+        pack();
+    } catch (ClassNotFoundException | InstantiationException | 
+             IllegalAccessException | UnsupportedLookAndFeelException ex) {
+        JOptionPane.showMessageDialog(this, "Erro ao alterar a aparência. " + ex,
+                "Principal", JOptionPane.ERROR_MESSAGE);
     }
-
+}
+    
+    
+    /**
+     * @param args the command line argumen
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton ButaoAgenda;
+    private javax.swing.JRadioButtonMenuItem MenuMotif;
+    private javax.swing.JButton butaoProntuario;
+    private javax.swing.JButton butaoSituacao;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
-    private javax.swing.JMenu menuAgenda;
+    private javax.swing.JMenu menuAjuda;
+    private javax.swing.JMenu menuAparencia;
     private javax.swing.JMenu menuCadPaciente;
-    private javax.swing.JMenu menuEditPaciente;
+    private javax.swing.JRadioButtonMenuItem menuDark;
+    private javax.swing.JMenu menuFerramentas;
+    private javax.swing.JRadioButtonMenuItem menuLigth;
     private javax.swing.JMenu menuListPaciente;
+    private javax.swing.JRadioButtonMenuItem menuMetal;
+    private javax.swing.JRadioButtonMenuItem menuNumbus;
     private javax.swing.JMenu menuPaciente;
-    private javax.swing.JMenu menuProntuario;
     private javax.swing.JMenu menuSair;
+    private javax.swing.JRadioButtonMenuItem menuWindows;
     // End of variables declaration//GEN-END:variables
 }
