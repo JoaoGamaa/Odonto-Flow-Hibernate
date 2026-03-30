@@ -129,6 +129,8 @@ public class DlgAgenda extends javax.swing.JDialog {
             }
         });
     }
+    
+    //funcionalidade com percistencia apos hibernate BD
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

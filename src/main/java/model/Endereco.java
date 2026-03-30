@@ -20,7 +20,7 @@ public class Endereco {
     
     public Endereco(String cep, String uf, String bairro, String cidade, String logradouro, String complemento) {
         this.cep = cep;
-        this.estado = uf;
+        this.estado = uf; //mudar para nome do estado
         this.bairro = bairro;
         this.cidade = cidade;
         this.logradouro = logradouro;
