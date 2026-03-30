@@ -4,6 +4,7 @@
  */
 package viewer;
 
+import controller.CtrlPacientes;
 import controller.FuncoesUteis;
 import java.io.File;
 import java.io.IOException;
@@ -12,6 +13,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import model.Endereco;
+import model.Paciente;
 
 /**
  *
@@ -27,6 +29,14 @@ public class DlgCadCliente extends javax.swing.JDialog {
     public DlgCadCliente(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        initEventos();
+    }
+
+    private void initEventos() {
+        butaoCancelar.addActionListener(evt -> dispose());
+        Senha.setText("");
+        ConfirmarSenha.setText("");
+        lblFoto.putClientProperty("caminhoFoto", "");
     }
 
     /**
@@ -125,8 +135,6 @@ public class DlgCadCliente extends javax.swing.JDialog {
 
         jLabel8.setText("Estado");
 
-        ComboBoxEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Distrito Federal", "Acre", "Alagoas", "Amapá", "Amazonas", "Bahia", "Ceará", "Espírito Santo", "Goiás", "Maranhão", "Mato Grosso", "Mato Grosso do Sul", "Minas Gerais", "Pará", "Paraíba", "Paraná", "Pernambuco", "Piauí", "Rio de Janeiro", "Rio Grande do Norte", "Rio Grande do Sul", "Rondônia", "Roraima", "Santa Catarina", "São Paulo", "Sergipe", "Tocantins" }));
-
         try {
             txtFormaterCEP.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("#####-###")));
         } catch (java.text.ParseException ex) {
@@ -168,13 +176,13 @@ public class DlgCadCliente extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel8)
-                            .addComponent(ComboBoxEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(12, 12, 12)
+                            .addComponent(ComboBoxEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtCidade)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel9)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(txtCidade)))
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(txtNumero)
                         .addGap(18, 18, 18)
@@ -427,7 +435,85 @@ public class DlgCadCliente extends javax.swing.JDialog {
     }//GEN-LAST:event_txtComplementoActionPerformed
 
     private void butaoConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butaoConfirmarActionPerformed
-        // TODO add your handling code here:
+        String nome = txtNome.getText().trim();
+        String cpf = txtFormaterCPF.getText().trim();
+        String dataNascimento = txtFormaterDataNascimento.getText().trim();
+        String telefone = txtFormaterTelefone.getText().trim();
+        String email = txtEmail.getText().trim();
+        String senha = new String(Senha.getPassword());
+        String confirmarSenha = new String(ConfirmarSenha.getPassword());
+
+        if (nome.isBlank()) {
+            JOptionPane.showMessageDialog(this, "Informe o nome do paciente.",
+                    "Cadastro de Paciente", JOptionPane.WARNING_MESSAGE);
+            txtNome.requestFocus();
+            return;
+        }
+
+        if (cpf.replaceAll("\\D", "").length() != 11) {
+            JOptionPane.showMessageDialog(this, "Informe um CPF valido.",
+                    "Cadastro de Paciente", JOptionPane.WARNING_MESSAGE);
+            txtFormaterCPF.requestFocus();
+            return;
+        }
+
+        if (senha.isBlank()) {
+            JOptionPane.showMessageDialog(this, "Informe uma senha para o paciente.",
+                    "Cadastro de Paciente", JOptionPane.WARNING_MESSAGE);
+            Senha.requestFocus();
+            return;
+        }
+
+        if (!senha.equals(confirmarSenha)) {
+            JOptionPane.showMessageDialog(this, "As senhas nao conferem.",
+                    "Cadastro de Paciente", JOptionPane.WARNING_MESSAGE);
+            ConfirmarSenha.requestFocus();
+            return;
+        }
+
+        Endereco endereco = new Endereco();
+        endereco.setCep(txtFormaterCEP.getText().trim());
+        endereco.setEstado(String.valueOf(ComboBoxEstado.getSelectedItem()));
+        endereco.setCidade(txtCidade.getText().trim());
+        endereco.setLogradouro(txtRua.getText().trim());
+        endereco.setBairro(txtBairro.getText().trim());
+        endereco.setComplemento(txtComplemento.getText().trim());
+        endereco.setReferencia("");
+
+        String numeroTexto = txtNumero.getText().trim();
+        if (!numeroTexto.isBlank()) {
+            try {
+                endereco.setNumero(Integer.parseInt(numeroTexto));
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "Numero do endereco invalido.",
+                        "Cadastro de Paciente", JOptionPane.WARNING_MESSAGE);
+                txtNumero.requestFocus();
+                return;
+            }
+        }
+
+        Paciente paciente = new Paciente();
+        paciente.setNome(nome);
+        paciente.setSexo(String.valueOf(ComboBoxSexo.getSelectedItem()));
+        paciente.setCpf(cpf);
+        paciente.setDataNascimento(dataNascimento);
+        paciente.setTelefone(telefone);
+        paciente.setEmail(email);
+        paciente.setSenha(senha);
+        paciente.setEndereco(endereco);
+        paciente.setCaminhoFoto((String) lblFoto.getClientProperty("caminhoFoto"));
+
+        boolean cadastrado = CtrlPacientes.getInstancia().cadastrarPaciente(paciente);
+        if (!cadastrado) {
+            JOptionPane.showMessageDialog(this, "Ja existe paciente cadastrado com este CPF.",
+                    "Cadastro de Paciente", JOptionPane.WARNING_MESSAGE);
+            txtFormaterCPF.requestFocus();
+            return;
+        }
+
+        JOptionPane.showMessageDialog(this, "Paciente cadastrado com sucesso.",
+                "Cadastro de Paciente", JOptionPane.INFORMATION_MESSAGE);
+        dispose();
     }//GEN-LAST:event_butaoConfirmarActionPerformed
 
     private void txtFormaterCEPFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtFormaterCEPFocusLost
@@ -464,6 +550,8 @@ public class DlgCadCliente extends javax.swing.JDialog {
             File arq = janArq.getSelectedFile();
             ImageIcon imagem = new ImageIcon (arq.getAbsolutePath());
             lblFoto.setIcon(imagem);
+            lblFoto.setText("");
+            lblFoto.putClientProperty("caminhoFoto", arq.getAbsolutePath());
         }
     }//GEN-LAST:event_lblFotoMouseClicked
 

@@ -4,6 +4,10 @@
  */
 package viewer;
 
+import controller.CtrlPacientes;
+import javax.swing.JOptionPane;
+import model.Paciente;
+
 /**
  *
  * @author joaoh
@@ -18,6 +22,51 @@ public class DlgEscolherPaciente extends javax.swing.JDialog {
     public DlgEscolherPaciente(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        initEventos();
+        carregarPacientes();
+    }
+
+    private void initEventos() {
+        SenhaPaciente.setText("");
+        butaoConfirmar.addActionListener(evt -> confirmarSelecao());
+        butaoCancelar.addActionListener(evt -> {
+            CtrlPacientes.getInstancia().setPacienteSelecionado(null);
+            dispose();
+        });
+    }
+
+    private void carregarPacientes() {
+        ComboBoxPaciente.removeAllItems();
+        for (Paciente paciente : CtrlPacientes.getInstancia().getPacientes()) {
+            ComboBoxPaciente.addItem(paciente.getNome());
+        }
+    }
+
+    private void confirmarSelecao() {
+        Object itemSelecionado = ComboBoxPaciente.getSelectedItem();
+        if (itemSelecionado == null) {
+            JOptionPane.showMessageDialog(this, "Selecione um paciente.",
+                    "Escolher Paciente", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        Paciente paciente = CtrlPacientes.getInstancia().buscarPorNome(itemSelecionado.toString());
+        if (paciente == null) {
+            JOptionPane.showMessageDialog(this, "Paciente nao encontrado.",
+                    "Escolher Paciente", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        String senhaInformada = new String(SenhaPaciente.getPassword());
+        if (!paciente.senhaConfere(senhaInformada)) {
+            JOptionPane.showMessageDialog(this, "Senha incorreta.",
+                    "Escolher Paciente", JOptionPane.WARNING_MESSAGE);
+            SenhaPaciente.requestFocus();
+            return;
+        }
+
+        CtrlPacientes.getInstancia().setPacienteSelecionado(paciente);
+        dispose();
     }
 
     /**
@@ -34,6 +83,8 @@ public class DlgEscolherPaciente extends javax.swing.JDialog {
         ComboBoxPaciente = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         SenhaPaciente = new javax.swing.JPasswordField();
+        butaoConfirmar = new javax.swing.JButton();
+        butaoCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -61,7 +112,9 @@ public class DlgEscolherPaciente extends javax.swing.JDialog {
 
         jLabel2.setText("Senha");
 
-        SenhaPaciente.setText("jPasswordField1");
+        butaoConfirmar.setText("Confirmar");
+
+        butaoCancelar.setText("Cancelar");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -75,7 +128,12 @@ public class DlgEscolherPaciente extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(SenhaPaciente))
+                    .addComponent(SenhaPaciente)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(butaoConfirmar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(butaoCancelar)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -88,7 +146,11 @@ public class DlgEscolherPaciente extends javax.swing.JDialog {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(SenhaPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(47, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(butaoConfirmar)
+                    .addComponent(butaoCancelar))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         pack();
@@ -134,6 +196,8 @@ public class DlgEscolherPaciente extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> ComboBoxPaciente;
     private javax.swing.JPasswordField SenhaPaciente;
+    private javax.swing.JButton butaoCancelar;
+    private javax.swing.JButton butaoConfirmar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel2;

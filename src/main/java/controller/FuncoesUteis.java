@@ -39,11 +39,12 @@ public class FuncoesUteis {
         connection.setRequestMethod("GET");
 
         // Ler a resposta
-        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         StringBuilder response = new StringBuilder();
-        String line;
-        while ((line = reader.readLine()) != null) {
-            response.append(line);
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                response.append(line);
+            }
         }
 
         // Converter a resposta JSON em um objeto JSONObject
@@ -56,7 +57,7 @@ public class FuncoesUteis {
             ender.setLogradouro(jsonObject.getString("logradouro"));
             ender.setBairro(jsonObject.getString("bairro") );
             ender.setCidade(jsonObject.getString("localidade") );
-            ender.setEstado(jsonObject.getString("estado") );
+            ender.setEstado(jsonObject.getString("uf") );
 
         } else {
             System.out.println("CEP não encontrado.");

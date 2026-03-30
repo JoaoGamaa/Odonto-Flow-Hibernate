@@ -4,6 +4,14 @@
  */
 package viewer;
 
+import java.io.File;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import model.Endereco;
+import model.Paciente;
+
 /**
  *
  * @author joaoh
@@ -18,6 +26,65 @@ public class DlgProntuario extends javax.swing.JDialog {
     public DlgProntuario(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        initTela();
+    }
+
+    private void initTela() {
+        HorarioDisponivel.removeAllItems();
+        HorarioDisponivel.addItem("08:00");
+        HorarioDisponivel.addItem("09:00");
+        HorarioDisponivel.addItem("10:00");
+        HorarioDisponivel.addItem("14:00");
+        HorarioDisponivel.addItem("15:00");
+        HorarioDisponivel.addItem("16:00");
+
+        RuaPaciente.setEditable(false);
+        BairroPaciente.setEditable(false);
+        jTextField2.setEditable(false);
+        EstadoPaciente.setEditable(false);
+        CidadePaciente.setEditable(false);
+        NumeroPaciente.setEditable(false);
+        ComplementoPaciente.setEditable(false);
+        emailPaciente.setEditable(false);
+        telefonePaciente.setEditable(false);
+        datadeNascimentoPaciente.setEditable(false);
+        SexoPaciente.setEnabled(false);
+        FotoPaciente.putClientProperty("caminhoFoto", "");
+    }
+
+    public void carregarPaciente(Paciente paciente) {
+        if (paciente == null) {
+            return;
+        }
+
+        jLabel3.setText(paciente.getNome());
+        datadeNascimentoPaciente.setText(paciente.getDataNascimento());
+        SexoPaciente.setSelectedItem(paciente.getSexo());
+        emailPaciente.setText(paciente.getEmail());
+        telefonePaciente.setText(paciente.getTelefone());
+
+        Endereco endereco = paciente.getEndereco();
+        if (endereco != null) {
+            jTextField2.setText(endereco.getCep());
+            EstadoPaciente.setText(endereco.getEstado());
+            CidadePaciente.setText(endereco.getCidade());
+            RuaPaciente.setText(endereco.getLogradouro());
+            BairroPaciente.setText(endereco.getBairro());
+            NumeroPaciente.setText(endereco.getNumero() == 0 ? "" : String.valueOf(endereco.getNumero()));
+            ComplementoPaciente.setText(endereco.getComplemento());
+        }
+
+        String caminhoFoto = paciente.getCaminhoFoto();
+        if (caminhoFoto != null && !caminhoFoto.isBlank()) {
+            ImageIcon imagem = new ImageIcon(caminhoFoto);
+            FotoPaciente.setIcon(imagem);
+            FotoPaciente.setText("");
+            FotoPaciente.putClientProperty("caminhoFoto", caminhoFoto);
+        } else {
+            FotoPaciente.setIcon(null);
+            FotoPaciente.setText("Foto");
+            FotoPaciente.putClientProperty("caminhoFoto", "");
+        }
     }
 
     /**
@@ -206,15 +273,15 @@ public class DlgProntuario extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(EstadoPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(EstadoPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel12)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(CidadePaciente))
                     .addGroup(endereçoPacienteLayout.createSequentialGroup()
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(RuaPaciente)
+                        .addComponent(RuaPaciente, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel11)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -385,6 +452,8 @@ public class DlgProntuario extends javax.swing.JDialog {
             File arq = janArq.getSelectedFile();
             ImageIcon imagem = new ImageIcon (arq.getAbsolutePath());
             FotoPaciente.setIcon(imagem);
+            FotoPaciente.setText("");
+            FotoPaciente.putClientProperty("caminhoFoto", arq.getAbsolutePath());
         }
     }//GEN-LAST:event_FotoPacienteMouseClicked
 
@@ -401,7 +470,17 @@ public class DlgProntuario extends javax.swing.JDialog {
     }//GEN-LAST:event_CidadePacienteActionPerformed
 
     private void dataConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dataConsultaActionPerformed
-        // TODO add your handling code here:
+        if (dataConsulta.getText().replace(" ", "").isBlank()) {
+            JOptionPane.showMessageDialog(this, "Informe uma data para a consulta.",
+                    "Prontuario", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        JOptionPane.showMessageDialog(this,
+                "Consulta preparada para " + dataConsulta.getText()
+                + " as " + HorarioDisponivel.getSelectedItem()
+                + " com " + jComboBox1.getSelectedItem() + ".",
+                "Prontuario", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_dataConsultaActionPerformed
 
     /**

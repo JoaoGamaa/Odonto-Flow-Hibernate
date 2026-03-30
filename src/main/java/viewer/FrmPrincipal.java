@@ -40,15 +40,6 @@ private void initEventos() {
 // Marca o padrão inicial (Nimbus, já que é o que o sistema inicia)
     menuNumbus.setSelected(true);
     
-    butaoProntuario.addActionListener(evt -> 
-    controller.GerInterGrafica.getInstancia().abrirProntuario());
-
-    ButaoAgenda.addActionListener(evt -> 
-    controller.GerInterGrafica.getInstancia().abrirAgenda());
-    
-    menuWindows.addActionListener(evt -> trocarLookAndFeel('W'));
-    menuNumbus.addActionListener(evt -> trocarLookAndFeel('N'));
-    MenuMotif.addActionListener(evt -> trocarLookAndFeel('F'));
     menuWindows.addActionListener(evt -> trocarLookAndFeel('W'));
     menuNumbus.addActionListener(evt -> trocarLookAndFeel('N'));
     MenuMotif.addActionListener(evt -> trocarLookAndFeel('F'));
@@ -67,14 +58,6 @@ private void initEventos() {
             controller.GerInterGrafica.getInstancia().abrirListarPaciente();
         }
     });
-
-    menuFerramentas.addMouseListener(new java.awt.event.MouseAdapter() {
-        @Override
-        public void mouseClicked(java.awt.event.MouseEvent evt) {
-            controller.GerInterGrafica.getInstancia().abrirAgenda();
-        }
-    });
-
     menuAjuda.addMouseListener(new java.awt.event.MouseAdapter() {
         @Override
         public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -234,11 +217,11 @@ private void initEventos() {
     }// </editor-fold>//GEN-END:initComponents
 
     private void butaoProntuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butaoProntuarioActionPerformed
-        // TODO add your handling code here:
+        controller.GerInterGrafica.getInstancia().abrirProntuario();
     }//GEN-LAST:event_butaoProntuarioActionPerformed
 
     private void ButaoAgendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButaoAgendaActionPerformed
-        // TODO add your handling code here:
+        controller.GerInterGrafica.getInstancia().abrirAgenda();
     }//GEN-LAST:event_ButaoAgendaActionPerformed
 
     private void menuMetalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuMetalActionPerformed
